@@ -40,6 +40,9 @@ dependencies:
   timeline_tile: ^2.0.0
   smooth_page_indicator: ^1.2.0+3
   pinput: ^5.0.0
+  intl: ^0.20.0
+  grouped_list: ^6.0.0
+  
 
 dev_dependencies:
   flutter_test:

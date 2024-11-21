@@ -1,5 +1,6 @@
 import 'package:driver_app/commons/app_text_styles.dart';
 import 'package:driver_app/screens/enter_otp.dart';
+import 'package:driver_app/screens/message_screen.dart';
 import 'package:driver_app/screens/ride_cancel.dart';
 import 'package:driver_app/widgets/time_line.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,79 @@ class ArrivedTrip extends StatefulWidget {
 }
 
 class _ArrivedTripState extends State<ArrivedTrip> {
-
+ void _showDialogebox2(){
+   showDialog(context: context, builder: (BuildContext context){
+      return Builder(builder: (context){
+        return AlertDialog(
+          
+          shape: const RoundedRectangleBorder(
+            borderRadius:BorderRadius.all(Radius.circular(12))
+          ),
+          
+            content: SizedBox(
+              height: 249,
+             
+              child: Column(
+                children: [
+                  Image.asset("assets/images/red.png"),
+                  const SizedBox(height: 10,),
+                  Align(alignment: Alignment.center,
+                    child: Text("Call your emergency contact?",style: AppTextStyles.headline3)),
+                  const SizedBox(height: 10,),
+                  Text("You location will be shared with your emergency contact along with it!",style: AppTextStyles.smalltitle,),
+                 
+                   const SizedBox(height: 30,),
+                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        height: 42,width: 100,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.grey[200],
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                                
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child:  const Text(
+                              'No',
+                              style: AppTextStyles.baseStyle2 ,
+                            )),
+                      ),
+                      SizedBox(height: 42,width: 100,
+                        child: ElevatedButton(
+                            style:
+                             ElevatedButton.styleFrom(
+                              backgroundColor: 
+                                const Color(0xFFE75356),
+                              shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
+                            ),
+                            onPressed: () {
+                             
+                             
+                            },
+                            child:  const Row(
+                              children: [
+                                Icon(Icons.call,color:Color(0xFFFFFFFF) ,),
+                                Text(
+                                  'Call',
+                                  style: AppTextStyles.baseStyle2,
+                                ),
+                              ],
+                            )),
+                      )
+                    ],
+                                     )
+                   
+                ],
+              ),
+              
+            ),
+        );
+      });
+    });
+ }
   void _showDialogebox(){
     showDialog(context: context, builder: (BuildContext context){
       return Builder(builder: (context){
@@ -41,7 +114,7 @@ class _ArrivedTripState extends State<ArrivedTrip> {
                       TextSpan(text:"/10 cancellation left ",style: AppTextStyles.smalltitle)
                     ]
                   )),
-                   const SizedBox(height: 10,),
+                   const SizedBox(height: 30,),
                    Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -125,10 +198,18 @@ class _ArrivedTripState extends State<ArrivedTrip> {
                   shape: BoxShape.circle,
                   color: Color(0xFFD9D9D9),
                 ),
-                        child: const Icon(
+                        child: IconButton(icon:  const Icon(
                           Icons.message,
                           color: Color(0xFF4257D3),
-                        ),
+                        ) , onPressed: () { 
+                        
+                           Navigator.push(context,MaterialPageRoute(builder: 
+                            (context)=> const MessageScreen(),
+                           ));
+
+                         },)
+                        
+                       
                       ),
           
               ),
@@ -216,10 +297,7 @@ class _ArrivedTripState extends State<ArrivedTrip> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8))),
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ArrivedTrip()));
+                        _showDialogebox2();
                       },
                       child: Text(
                         "SOS",
