@@ -57,10 +57,10 @@ class _ArrivedTripState extends State<ArrivedTrip> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        // 'No' button
+                       
                         SizedBox(
                           height: 42,
-                          width: 100,
+                          width: 136,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey[200],
@@ -72,7 +72,7 @@ class _ArrivedTripState extends State<ArrivedTrip> {
                               Navigator.of(context).pop();
                             },
                             child: const Text(
-                              'No',
+                              'Cancel',
                               style: AppTextStyles.baseStyle2,
                             ),
                           ),
@@ -80,12 +80,12 @@ class _ArrivedTripState extends State<ArrivedTrip> {
                         // 'Call' button
                         SizedBox(
                           height: 42,
-                          width: 110,
+                          width: 136,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFE75356),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(24),
                               ),
                             ),
                             onPressed: () {
