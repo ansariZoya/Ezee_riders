@@ -1,40 +1,76 @@
 import 'package:driver_app/commons/app_text_styles.dart';
 import 'package:flutter/material.dart';
 class TabBarRow extends StatelessWidget {
-  const TabBarRow({super.key});
+  const TabBarRow({super.key, required this.selectedTab, required this.onTapSelectedTab});
+  final String selectedTab;
+  final Function onTapSelectedTab;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-              FilterChipWidget(label: 'Daily', isSelected: false,),
-              FilterChipWidget(label: 'Weekly', isSelected: true,),
-              FilterChipWidget(label: 'Monthly', isSelected: false,),
-        
-          ],
-        
-        ),
-          TextButton.icon(onPressed: (){},
-          icon: Icon(Icons.filter_alt_outlined,color: Color(0xFF4257D3),),
-           label: const Text("Filter"))
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 10,bottom: 10,right: 20,left: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+           Row(
+            children: [
+                GestureDetector(
+                  onTap:()=> onTapSelectedTab("Daily"),
+                  child:  FilterChipWidget(text: 'Daily', isSelected:
+                  selectedTab== "Daily"
+                  ,)),
+                GestureDetector(
+                   onTap:()=>  onTapSelectedTab("Weekly"),
+                  child:  FilterChipWidget(text: 'Weekly', isSelected: 
+                  selectedTab== "Weekly",)),
+                GestureDetector(
+                   onTap:()=>  onTapSelectedTab("Monthly"),
+                  child:  FilterChipWidget(text: 'Monthly', isSelected: 
+                  selectedTab== "Monthly",)),
+          
+            ],
+          
+          ),
+            Container(
+             width: 75,
+             height: 28,
+              decoration: BoxDecoration(
+                color: const Color(0xFFD9D9D9),
+                borderRadius: BorderRadius.circular(4)
+              ),
+              child: TextButton.icon(onPressed: (){},
+              icon: const Icon(Icons.filter_alt_outlined,color: Color(0xFF4257D3,),size: 12.5,),
+               label:  Text("Filter",style: AppTextStyles.baseStyle.copyWith(fontSize: 10.72,color: const Color(0xFF0056F6)),)),
+            )
+        ],
+      ),
     );
   }
 }
 class FilterChipWidget extends StatelessWidget {
-  const FilterChipWidget({super.key, required this.label, required this.isSelected});
-  final String label;
+  const FilterChipWidget({super.key, required this.isSelected, required this.text});
+  final String text;
   final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: EdgeInsets.all(8),
-    child: Chip(label: Text(label,style: AppTextStyles.headline3.copyWith(
-      fontSize: 13.28,
-      color:  isSelected? Color(0xFF0056F6) : Color(0xFF221E22)),)),
+    return Padding(padding: const EdgeInsets.all(8),
+    child: Column(
+      children: [
+     
+          
+           Text(text,style: AppTextStyles.headline3.copyWith(
+          fontSize: 13.28,
+          color:  isSelected? const Color(0xFF4257D3) : const Color(0xFF221E22)),),
+            const SizedBox(height: 4), 
+          if (isSelected)
+            Container(
+              width: 40,
+              height: 2,
+              color: const Color(0xFF4257D3), 
+            ),
+      ],
+    ),
     );
   }
 }

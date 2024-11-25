@@ -87,7 +87,7 @@ class EndTrip extends StatelessWidget {
            
                 
                 ListTile(
-                    leading: Image.asset('assets/images/arrive.png'),
+                    leading: Image.asset('assets/images/Ganesh.png'),
                     title: const Text(
                       "Ganesh Mahanta",
                       style: AppTextStyles.baseStyle,

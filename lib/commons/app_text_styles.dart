@@ -34,4 +34,7 @@ class AppTextStyles {
   static TextStyle get smalltitle => baseStyle.copyWith(
     fontSize: 13.28,fontWeight: FontWeight.w400,color: const Color(0xFF818587)
   );
+  static TextStyle get chartstyle => baseStyle2.copyWith(
+    fontSize: 8,color: const Color(0xFF818587),fontWeight: FontWeight.w500
+  );
 }

@@ -42,6 +42,7 @@ dependencies:
   pinput: ^5.0.0
   intl: ^0.20.0
   grouped_list: ^6.0.0
+  fl_chart: ^0.69.2
   
   
 
