@@ -1,8 +1,26 @@
 import 'package:driver_app/commons/app_text_styles.dart';
+import 'package:driver_app/widgets/withdraw.dart';
 import 'package:flutter/material.dart';
-class PayOutScreen extends StatelessWidget {
+class PayOutScreen extends StatefulWidget {
   const PayOutScreen({super.key});
 
+  @override
+  State<PayOutScreen> createState() => _PayOutScreenState();
+}
+
+class _PayOutScreenState extends State<PayOutScreen> {
+  void _showwithdrawPage(BuildContext context){
+        showBottomSheet(context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight:  Radius.circular(12),
+          )
+        ), 
+        builder: (context){
+          return WithdrawPage();
+        });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +113,9 @@ class PayOutScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(8)
                                     )
                                   ),
-                                  onPressed: (){}, child: Text("Withdraw",
+                                  onPressed: (){
+                                    _showwithdrawPage(context);
+                                  }, child: Text("Withdraw",
                                 style: AppTextStyles.baseStyle2.copyWith(
                                   fontWeight: FontWeight.w600,
                                   color: const Color(0xFFFFFFFF)
