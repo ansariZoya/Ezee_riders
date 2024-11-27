@@ -19,8 +19,11 @@ class WeeklyPerformance extends StatelessWidget {
             Container(
               height: 100,width: 322,
               decoration:  BoxDecoration(
+                border: Border.all(
+                  color: const Color(0xFFF5F5F5),width: 1
+                ),
                 borderRadius: BorderRadius.circular(8),
-                color: const Color(0xFFF5F5F5),
+                color: const Color(0xfffffffff),
                 boxShadow: const [
                   BoxShadow(
                     blurRadius: 17,

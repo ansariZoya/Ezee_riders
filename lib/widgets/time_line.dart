@@ -31,3 +31,31 @@ class TimeLinewidget extends StatelessWidget {
       ),
     );
   }}
+  class TimeLineWidgetnew extends StatelessWidget {
+  const TimeLineWidgetnew({super.key, required this.isfirst, required this.islast, this.child});
+  final bool isfirst;
+  final bool islast;
+  
+  final child;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 80,
+      child: TimelineTile(
+        isFirst: isfirst,
+        isLast: islast,
+      endChild: child,
+      beforeLineStyle: const LineStyle(
+        thickness: 1,
+      
+      ),
+      indicatorStyle: const IndicatorStyle(
+        
+        color: Color(0xFF24A665)
+      ),
+        
+      ),
+    );
+  }
+}

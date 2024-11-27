@@ -1,5 +1,6 @@
 
 import 'package:driver_app/commons/app_text_styles.dart';
+import 'package:driver_app/screens/payout_details.dart';
 import 'package:driver_app/widgets/perform_data.dart';
 import 'package:flutter/material.dart';
 class DailyChart extends StatelessWidget {
@@ -86,6 +87,10 @@ class DailyChart extends StatelessWidget {
                 ),
                  const SizedBox(height: 20,),
            ListTile(
+            onTap: (){
+              Navigator.push(context, 
+              MaterialPageRoute(builder: (context)=>const PayoutDetails()));
+            },
                           leading: Container(
                             height: 28,width: 28,
                             decoration: const BoxDecoration(

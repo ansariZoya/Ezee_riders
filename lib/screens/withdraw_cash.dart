@@ -1,4 +1,5 @@
 import 'package:driver_app/commons/app_text_styles.dart';
+import 'package:driver_app/screens/payout_done.dart';
 import 'package:flutter/material.dart';
 
 class WithdrawCash extends StatefulWidget {
@@ -137,7 +138,10 @@ class _WithdrawCashState extends State<WithdrawCash> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                   MaterialPageRoute(builder: (context)=> const PayoutDone()));
+                },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),

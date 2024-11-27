@@ -1,5 +1,6 @@
 
 import 'package:driver_app/commons/app_text_styles.dart';
+import 'package:driver_app/screens/payout_details.dart';
 import 'package:flutter/material.dart';
 class WeeklyEarning extends StatelessWidget {
   const WeeklyEarning({super.key});
@@ -31,6 +32,10 @@ class WeeklyEarning extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
+                    onTap: (){
+                      Navigator.push(context,
+                       MaterialPageRoute(builder: (context)=>const PayoutDetails()));
+                    },
                     leading: Container(
                       height: 28,width: 28,
                       decoration: const BoxDecoration(

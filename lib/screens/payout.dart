@@ -18,7 +18,7 @@ class _PayOutScreenState extends State<PayOutScreen> {
           )
         ), 
         builder: (context){
-          return WithdrawPage();
+          return const WithdrawPage();
         });
   }
   @override
@@ -129,7 +129,7 @@ class _PayOutScreenState extends State<PayOutScreen> {
               ),
             ),
           ),const SizedBox(height: 20,),
-          Container(
+         /* Container(
             height: 73,width: 340,
              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
@@ -165,7 +165,7 @@ class _PayOutScreenState extends State<PayOutScreen> {
                     ],
                   ),
                 ),
-          )
+          )*/
         ],
       ),
     );
