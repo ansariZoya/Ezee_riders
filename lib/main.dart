@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'screens/online_state.dart';
+import 'features/online/screens/online_state.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       
       debugShowCheckedModeBanner: false,
-      home: OnlineState(),
+      home: OnlineState()
     );
   }
 }
