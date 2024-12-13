@@ -2,7 +2,6 @@
 import 'package:driver_app/features/explore/screens/explore.dart';
 import 'package:flutter/material.dart';
 
-import 'features/online/screens/online_state.dart';
 
 void main() {
   runApp(const MyApp());

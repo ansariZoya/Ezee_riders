@@ -1,15 +1,22 @@
+
 import 'package:driver_app/features/emergency_contact/screens/emergency_contact.dart';
-import 'package:driver_app/utils/app_colors.dart';
-import 'package:driver_app/utils/app_text_styles.dart';
 import 'package:driver_app/features/explore/screens/call_screen.dart';
 import 'package:driver_app/features/explore/screens/enter_otp.dart';
 import 'package:driver_app/features/explore/screens/message_screen.dart';
 import 'package:driver_app/features/explore/screens/ride_cancel.dart';
-import 'package:driver_app/utils/responsive_size.dart';
 import 'package:driver_app/features/explore/widgets/time_line.dart';
+import 'package:driver_app/utils/app_colors.dart';
+import 'package:driver_app/utils/app_text_styles.dart';
+import 'package:driver_app/utils/responsive_size.dart';
 import 'package:flutter/material.dart';
 import 'package:slide_to_act/slide_to_act.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 class ArrivedTrip extends StatefulWidget {
   const ArrivedTrip({super.key});
 
@@ -18,7 +25,161 @@ class ArrivedTrip extends StatefulWidget {
 }
 
 class _ArrivedTripState extends State<ArrivedTrip> {
-  void _showDialogebox2() {
+  late GoogleMapController mapController;
+  String pickup="";
+  String dropoff="";
+  double piclat=0;
+  double piclong=0;
+  double deslat=0;
+  double destlong=0;
+  String user="";
+  String? objectid;
+  final Completer<GoogleMapController> _mapController = Completer<GoogleMapController>();
+  Location location = Location();
+  LatLng? userLocation;
+  Set<Marker> markers = {};
+  Map<PolylineId, Polyline> polyLines = {};
+  late LatLng sourceLocation ;
+  late LatLng destinationLocation;
+  StreamSubscription<LocationData>? locationSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    shared().then((_) {
+      locafetchUser(objectid).then((_) {
+        setState(() {
+          sourceLocation = LatLng(piclat, piclong);
+          destinationLocation = LatLng(deslat, destlong);
+
+          _updatePolyline();
+        });
+        _initializeLocation();
+      });
+    });
+  }
+  Future<void> shared() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    objectid=prefs.getString('ObjectId');
+    print('Printing the Object ID: $objectid');
+  }
+
+  @override
+  void dispose() {
+    locationSubscription?.cancel();
+    super.dispose();
+  }
+  Future<void> locafetchUser(String? id) async {
+    final response = await http.get(Uri.parse('http://10.0.2.2:3000/locafindUser/$id'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      pickup = data['currentAddress'];
+      dropoff = data['destinationAddress'];
+      piclat = data['currentLat'];
+      piclong=data['currentLng'];
+      deslat=data['destLat'];
+      destlong=data['destLng'];
+      user=data['userName'];
+      print('Pickup: $pickup');
+      print('Dropoff: $dropoff');
+    } else if (response.statusCode == 404) {
+      print('User not found');
+    } else {
+      throw Exception('Failed to fetch user data');
+    }
+  }
+
+  Future<void> _initializeLocation() async {
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) return;
+    }
+
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) return;
+    }
+
+    locationSubscription = location.onLocationChanged.listen((newLocation) {
+      setState(() {
+        userLocation = LatLng(newLocation.latitude!, newLocation.longitude!);
+
+        _updateMarkers();
+        _cameraToPosition(userLocation!);
+      });
+    });
+  }
+
+  Future<void> _cameraToPosition(LatLng pos) async {
+    final GoogleMapController controller = await _mapController.future;
+    CameraPosition newCameraPosition = CameraPosition(target: pos, zoom: 14.0);
+    await controller.animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+  }
+
+  void _updateMarkers() {
+    setState(() {
+      markers = {
+        Marker(markerId: const MarkerId("source"), position: sourceLocation),
+        Marker(markerId: const MarkerId("user"), position: userLocation!),
+        Marker(markerId: const MarkerId("destination"), position: destinationLocation),
+      };
+    });
+  }
+
+  void _updatePolyline() async {
+    clearPolylines();
+    final coordinates = await getPolylinePoints();
+    generatePolylinefromPoints(coordinates);
+  }
+
+  void clearPolylines() {
+    setState(() {
+      polyLines.clear();
+    });
+  }
+
+  void generatePolylinefromPoints(List<LatLng> polylineCoordinates) {
+    PolylineId id = const PolylineId('poly');
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.blue,
+      points: polylineCoordinates,
+      width: 8,
+    );
+    setState(() {
+      polyLines[id] = polyline;
+    });
+  }
+
+  Future<List<LatLng>> getPolylinePoints() async {
+    List<LatLng> polylineCoordinates = [];
+    PolylinePoints polylinePoints = PolylinePoints();
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      googleApiKey: 'AIzaSyBjGyyXWfWYY0gG4OlJTFQ82Gr6SU7siw8',
+      request: PolylineRequest(
+        origin: PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
+        destination: PointLatLng(destinationLocation.latitude, destinationLocation.longitude),
+        mode: TravelMode.driving,
+      ),
+    );
+    if (result.points.isNotEmpty) {
+      for (var point in result.points) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      }
+    } else {
+      print("Polyline Error: ${result.errorMessage}");
+    }
+    return polylineCoordinates;
+  }
+ void _showDialogebox2() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -132,7 +293,6 @@ class _ArrivedTripState extends State<ArrivedTrip> {
       },
     );
   }
-
   void _showDialogebox() {
     showDialog(
         context: context,
@@ -234,11 +394,39 @@ class _ArrivedTripState extends State<ArrivedTrip> {
         });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Padding(
+      body: Stack(
+        children: [
+          userLocation == null
+              ? const Center(child: CircularProgressIndicator())
+              : GoogleMap(
+            onMapCreated: ((GoogleMapController controller )=> _mapController.complete(controller)),
+            initialCameraPosition: CameraPosition(
+              target: userLocation!,
+              zoom: 14.0,
+            ),
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            scrollGesturesEnabled: true,
+            zoomGesturesEnabled: true,
+            rotateGesturesEnabled: true,
+            tiltGesturesEnabled: true,
+            markers:
+            {
+              Marker(
+                  markerId: const MarkerId("_destination"),
+                  icon: BitmapDescriptor.defaultMarker,
+                  position: destinationLocation
+              )
+            },
+            polylines: Set<Polyline>.of(polyLines.values),
+          ),
+          // Iske baad apna UI daaldoHaa
+        Padding(
         padding: const EdgeInsets.only(top: 570),
         child: Container(
             height: ResponsiveSize.height(context, 444),
@@ -463,6 +651,8 @@ class _ArrivedTripState extends State<ArrivedTrip> {
               ],
             )),
       ),
-    ));
+        ]
+      ));
   }
 }
+

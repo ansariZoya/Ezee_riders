@@ -28,8 +28,8 @@ class _ExploreScreen extends State<ExploreScreen> {
   LatLng? userLocation;
   Set<Marker> markers = {};
   Map<PolylineId, Polyline> polyLines = {};
-  LatLng sourceLocation = LatLng(37.6149, -122.415);
-  LatLng destinationLocation = LatLng(37.6172, -122.384);
+  LatLng sourceLocation = const LatLng(37.6149, -122.415);
+  LatLng destinationLocation = const LatLng(37.6172, -122.384);
   StreamSubscription<LocationData>? locationSubscription;
   bool isRideRequestAvailable = false;
   Map<String, dynamic> rideRequestData = {};
@@ -176,7 +176,7 @@ class _ExploreScreen extends State<ExploreScreen> {
                           color: AppColors.newShadowColor)
                     ]),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: SizedBox(
                     width: ResponsiveSize.width(context, 301),
                     height: ResponsiveSize.height(context, 216),
