@@ -156,14 +156,14 @@ class _ExploreScreen extends State<ExploreScreen> {
         if (isRideRequestAvailable)
           Padding(
             padding:
-                EdgeInsets.only(top: ResponsiveSize.height(context, 376)),
+                EdgeInsets.only(top: ResponsiveSize.height(context, 374)),
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: ResponsiveSize.height(context, 12),
                 vertical: ResponsiveSize.width(context, 16),
               ),
               child: Container(
-                height: ResponsiveSize.height(context, 300),
+                height: ResponsiveSize.height(context, 298),
                 width: ResponsiveSize.width(context, 326),
                 decoration: BoxDecoration(
                     color: AppColors.backgroundColor,

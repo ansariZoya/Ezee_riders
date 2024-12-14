@@ -1,12 +1,84 @@
+
+
 import 'package:driver_app/utils/app_colors.dart';
 import 'package:driver_app/utils/app_text_styles.dart';
 import 'package:driver_app/utils/responsive_size.dart';
 import 'package:flutter/material.dart';
-
-
-class PaymentTrip extends StatelessWidget {
+import 'dart:convert';
+import 'package:http/http.dart'as http;
+class PaymentTrip extends StatefulWidget{
   const PaymentTrip({super.key});
 
+  @override
+  State<PaymentTrip> createState() => _PaymentTrip();
+
+}
+class _PaymentTrip extends State<PaymentTrip>{
+  int withdraw=0;
+  bool info=false;
+  @override
+  void initState() {
+    super.initState();
+    Waiting();
+  }
+  void Waiting() async{
+    await withdrawfetchUser("0123456789");
+    await withdrawinsertUser("0123456789");
+    await addFieldtoUser("0123456789");
+  }
+  Future<void> withdrawfetchUser(String phonenumber) async {
+    final response = await http.get(Uri.parse('http://10.0.2.2:3000/withdrawfindUser/$phonenumber'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      withdraw = data['balance'];
+      setState(() {
+        info=true;
+      });
+
+    } else if (response.statusCode == 404) {
+      print('User not found');
+    } else {
+      throw Exception('Failed to fetch user data');
+    }
+  }
+  Future<void> withdrawinsertUser(String phoneNumber) async {
+    if (!info) {
+      final response = await http.post(
+        Uri.parse('http://10.0.2.2:3000/withdrawinsertUser'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'phonenumber': phoneNumber,
+
+          'balance': 0
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print(data['message']);
+      } else {
+        throw Exception('Failed to insert user');
+      }
+    }
+  }
+  Future<void> addFieldtoUser(String phoneNumber) async {
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:3000/addFieldToUser'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'phonenumber': phoneNumber,
+        'userData' : {
+          'balance':withdraw + 80
+        }
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      print(data['message']);
+    } else {
+      throw Exception('Failed to insert user');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

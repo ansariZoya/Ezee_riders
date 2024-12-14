@@ -69,7 +69,7 @@ class EndTrip extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const PaymentTrip()));
+                                builder: (context) =>  PaymentTrip()));
                         return null;
                       },
                       outerColor: AppColors.greenColor,
