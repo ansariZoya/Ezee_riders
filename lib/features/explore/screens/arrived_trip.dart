@@ -426,231 +426,235 @@ class _ArrivedTripState extends State<ArrivedTrip> {
             polylines: Set<Polyline>.of(polyLines.values),
           ),
           // Iske baad apna UI daaldoHaa
+     Padding(
+  padding: const EdgeInsets.only(top: 570),
+  child: Container(
+    height: ResponsiveSize.height(context, 444),
+    width: ResponsiveSize.width(context, 360),
+    color: AppColors.backgroundColor,
+    child: Column(
+      children: [
         Padding(
-        padding: const EdgeInsets.only(top: 570),
-        child: Container(
-            height: ResponsiveSize.height(context, 444),
-            width: ResponsiveSize.width(context, 360),
-            color: AppColors.backgroundColor,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 17),
-                  child: ListTile(
-                    leading: Container(
-                        height: ResponsiveSize.height(context, 36),
-                        width: ResponsiveSize.width(context, 36),
-                        decoration:  const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color:AppColors.purplebackground
-
-                        ),
-                        child: IconButton(
-                          icon: const Center(
-                            child: Icon(
-                              Icons.phone,
-                              color: AppColors.primaryColor
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const CallScreen(),
-                                ));
-                          },
-                        )),
-                    title: const Padding(
-                      padding: EdgeInsets.only(left: 60),
-                      child: Text(
-                        "0 min away",
-                        style: AppTextStyles.baseStyle,
-                      ),
-                    ),
-                    trailing: Container(
-                        height: ResponsiveSize.height(context, 36),
-                        width: ResponsiveSize.width(context, 36),
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                           color:AppColors.purplebackground
-                        ),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.message,
-                            color:AppColors.primaryColor
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MessageScreen(),
-                                ));
-                          },
-                        )),
+          padding: const EdgeInsets.only(left: 17),
+          child: ListTile(
+            leading: Container(
+              height: ResponsiveSize.height(context, 36),
+              width: ResponsiveSize.width(context, 36),
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.purplebackground,
+              ),
+              child: IconButton(
+                icon: const Center(
+                  child: Icon(
+                    Icons.phone,
+                    color: AppColors.primaryColor,
                   ),
                 ),
-                Container(
-                  height: ResponsiveSize.height(context, 46),
-                  width: ResponsiveSize.width(context, 278.56),
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(28)),
-                  child: SlideAction(
-                      onSubmit: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const EnterOtP()));
-                        return null;
-                      },
-                      outerColor: AppColors.greenColor,
-                      sliderButtonIcon: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 2,
-                        ),
-                        child: Container(
-                          height: ResponsiveSize.height(context, 40),
-                          width: ResponsiveSize.width(context, 40),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color:AppColors.backgroundColor,
-                          ),
-                          child: const Icon(Icons.two_wheeler,
-                              size: 19, color: AppColors.newgreenColor),
-                        ),
-                      ),
-                      sliderButtonIconPadding: 2,
-                      text: "Arrived",
-                      textStyle: AppTextStyles.smalltitle
-                          .copyWith(color: AppColors.backgroundColor)),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CallScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
+            title: const Padding(
+              padding: EdgeInsets.only(left: 60),
+              child: Text(
+                "0 min away",
+                style: AppTextStyles.baseStyle,
+              ),
+            ),
+            trailing: Container(
+              height: ResponsiveSize.height(context, 36),
+              width: ResponsiveSize.width(context, 36),
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.purplebackground,
+              ),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.message,
+                  color: AppColors.primaryColor,
                 ),
-                
-                Padding(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MessageScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height: ResponsiveSize.height(context, 40),
+          width: ResponsiveSize.width(context, 278.56),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(28),
+          ),
+          child: SlideAction(
+            onSubmit: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const EnterOtP()),
+              );
+            },
+            outerColor: AppColors.greenColor,
+            sliderButtonIcon: Padding(
+              padding: const EdgeInsets.only(left: 2),
+              child: Container(
+                height: ResponsiveSize.height(context, 30),
+                width: ResponsiveSize.width(context, 40),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.backgroundColor,
+                ),
+                child: const Icon(
+                  Icons.two_wheeler,
+                  size: 19,
+                  color: AppColors.newgreenColor,
+                ),
+              ),
+            ),
+            sliderButtonIconPadding: 2,
+            text: "Arrived",
+            textStyle: AppTextStyles.smalltitle.copyWith(color: AppColors.backgroundColor),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: ResponsiveSize.height(context, 17)),
+          child: ListTile(
+            leading: Image.asset('assets/images/Ganesh.png'),
+            title: const Text(
+              "Ganesh Mahanta",
+              style: AppTextStyles.baseStyle,
+            ),
+            trailing: Container(
+              height: ResponsiveSize.height(context, 17),
+              width: ResponsiveSize.height(context, 40),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: AppColors.backgroundColor,
+                border: Border.all(color: AppColors.newgreyColor),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "4.4",
+                    style: AppTextStyles.subtitle,
+                  ),
+                  const Icon(
+                    Icons.star,
+                    color: Color(0xFFFFD600),
+                    size: 6,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: ResponsiveSize.height(context, 10)),
+        Padding(
+          padding: const EdgeInsets.only(left: 17),
+          child: SizedBox(
+            height: ResponsiveSize.height(context, 80),
+            child: TimeLinewidget(
+              isfirst: true,
+              islast: false,
+              isPast: true,
+              child: SizedBox(
+                height: ResponsiveSize.height(context, 70),
+                child: Padding(
                   padding: EdgeInsets.only(
-                      top: ResponsiveSize.height(context, 17),
-      
-                ),
-                  child: ListTile(
-                      leading: Image.asset('assets/images/Ganesh.png'),
-                      title: const Text(
-                        "Ganesh Mahanta",
-                        style: AppTextStyles.baseStyle,
-                      ),
-                      trailing: Container(
-                        height: ResponsiveSize.height(context, 17),
-                        width: ResponsiveSize.height(context, 40),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color:  AppColors.backgroundColor,
-                            border: Border.all(color:  AppColors.newgreyColor)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "4.4",
-                              style: AppTextStyles.subtitle,
-                            ),
-                            const Icon(
-                              Icons.star,
-                              color: Color(
-                                0xFFFFD600,
-                              ),
-                              size: 6,
-                            )
-                          ],
-                        ),
-                      )),
-                ),  SizedBox(
-                  height: ResponsiveSize.height(context, 10),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 17),
-                  child: SizedBox(
-                    height: ResponsiveSize.height(context, 80),
-                    child: TimeLinewidget(
-                      isfirst: true,
-                      islast: false,
-                      isPast: true,
-                      child: SizedBox(
-                            height: ResponsiveSize.height(context, 70),
-                        child: Padding(
-                                            padding: EdgeInsets.only(
-                        left: ResponsiveSize.width(context, 8),
-                        top: ResponsiveSize.height(context, 20),
-                                            ),
-                                            child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 2),
-                            child: RichText(
-                                text: TextSpan(children: [
+                    left: ResponsiveSize.width(context, 8),
+                    top: ResponsiveSize.height(context, 20),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 2),
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
                               TextSpan(
-                                  text: "Pickup at",
-                                
-                                  style: AppTextStyles.baseStyle.copyWith(
-                                    fontSize:16
-                                  )),
-                            
-                            ])),
+                                text: "Pickup at",
+                                style: AppTextStyles.baseStyle.copyWith(fontSize: 16),
+                              ),
+                            ],
                           ),
-                          Text("Dr. Rahalkar Hospital, Masanganj, Chhattisgarh 495001",
-                                style: AppTextStyles.smalltitle)
-                        ],
-                                            ),
-                                          ),
+                        ),
                       ),
-                    
-                    ),
+                      Text(
+                        "Dr. Rahalkar Hospital, Masanganj, Chhattisgarh 495001",
+                        style: AppTextStyles.smalltitle,
+                      ),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 17),
-                  child: TimeLinewidget(
-                    isfirst: false,
-                    islast: true,
-                    isPast: false,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8,),
-                      child: Text(" Drop Off ",
-                          style: AppTextStyles.baseStyle
-                              .copyWith(fontSize: 16)),
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    _showDialogebox();
-                  },
-                  child: Text("Cancel ride",
-                      style: AppTextStyles.headline3
-                          .copyWith(fontWeight: FontWeight.w400)),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: ResponsiveSize.height(context, 11),
-                    horizontal: ResponsiveSize.height(context, 24),
-                  ),
-                  child: SizedBox(
-                    width:  ResponsiveSize.width(context, 327),
-                    height:  ResponsiveSize.height(context,49),
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.redColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8))),
-                        onPressed: () {
-                          _showDialogebox2();
-                        },
-                        child: Text(
-                          "SOS",
-                          style: AppTextStyles.smalltitle
-                              .copyWith(color:AppColors.backgroundColor),
-                        )),
-                  ),
-                )
-              ],
-            )),
-      ),
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 17),
+          child: TimeLinewidget(
+            isfirst: false,
+            islast: true,
+            isPast: false,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text(
+                "Drop Off",
+                style: AppTextStyles.baseStyle.copyWith(fontSize: 16),
+              ),
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            _showDialogebox();
+          },
+          child: Text(
+            "Cancel ride",
+            style: AppTextStyles.headline3.copyWith(fontWeight: FontWeight.w400),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: ResponsiveSize.height(context, 11),
+            horizontal: ResponsiveSize.height(context, 24),
+          ),
+          child: SizedBox(
+            width: ResponsiveSize.width(context, 327),
+            height: ResponsiveSize.height(context, 38),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.redColor,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+              onPressed: () {
+                _showDialogebox2();
+              },
+              child: Text(
+                "SOS",
+                style: AppTextStyles.smalltitle.copyWith(color: AppColors.backgroundColor),
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+)
+
         ]
       ));
   }

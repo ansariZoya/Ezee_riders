@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
   static double screenWidth(BuildContext context)=> MediaQuery.of(context).size.width;
 
   static double height(BuildContext context,double value)=>
-  (value/674)*screenHeight(context);
+  (value/750)*screenHeight(context);
   static double width(BuildContext context,double value)=>
   (value/360)*screenWidth(context);
  }

@@ -1,8 +1,12 @@
+
+import 'package:driver_app/features/payout/screens/payout_done.dart';
+
 import 'package:driver_app/utils/app_colors.dart';
 import 'package:driver_app/utils/app_text_styles.dart';
-import 'package:driver_app/features/payout/screens/payout_done.dart';
-import 'package:flutter/material.dart';
 import 'package:driver_app/utils/responsive_size.dart';
+import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class WithdrawCash extends StatefulWidget {
   const WithdrawCash({super.key});
@@ -13,7 +17,29 @@ class WithdrawCash extends StatefulWidget {
 
 class _WithdrawCashState extends State<WithdrawCash> {
   String inputAmount = "";
+  int withdraw=0;
+  @override
+  void initState() {
+    super.initState();
+    Waiting();
+  }
+  void Waiting() async{
+    await withdrawfetchUser("0123456789");
 
+  }
+  Future<void> withdrawfetchUser(String phonenumber) async {
+    final response = await http.get(Uri.parse('http://10.0.2.2:3000/withdrawfindUser/$phonenumber'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      withdraw = data['balance'];
+      print(withdraw);
+    } else if (response.statusCode == 404) {
+      print('User not found');
+    } else {
+      throw Exception('Failed to fetch user data');
+    }
+  }
   void numberPressed(String value) {
     setState(() {
       if (value == "back") {
@@ -25,10 +51,43 @@ class _WithdrawCashState extends State<WithdrawCash> {
       }
     });
   }
+  String getIndianTimestamp() {
 
+    DateTime utcTime = DateTime.now().toUtc();
+
+
+    DateTime indianTime = utcTime.add(Duration(hours: 5, minutes: 30));
+
+
+    return indianTime.toIso8601String();
+  }
+  Future<void> addFieldtoUser(String phoneNumber) async {
+    if (int.parse(inputAmount) < withdraw) {
+      String timestamp = getIndianTimestamp();
+      print(timestamp);
+      final response = await http.post(
+        Uri.parse('http://10.0.2.2:3000/addFieldToUser'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'phonenumber': phoneNumber,
+          'userData': {
+            'request': int.parse(inputAmount),
+            'createdAt':timestamp,
+            'updatedAt':""
+          }
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print(data['message']);
+      } else {
+        throw Exception('Failed to insert user');
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return   Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         backgroundColor: AppColors.backgroundColor,
@@ -78,8 +137,8 @@ class _WithdrawCashState extends State<WithdrawCash> {
               child: ListTile(
                 visualDensity: const VisualDensity(vertical: -4),
                 leading: Container(
-                  height: 32,
-                  width: 32,
+                  height: ResponsiveSize.height(context, 32),
+                  width: ResponsiveSize.width(context, 32),
                   decoration: const BoxDecoration(shape: BoxShape.circle),
                   child: Image.asset("assets/images/account_balance.png"),
                 ),
@@ -89,7 +148,7 @@ class _WithdrawCashState extends State<WithdrawCash> {
                   style: AppTextStyles.baseStyle.copyWith(fontSize: 13.28, fontWeight: FontWeight.w600),
                 ),
                 subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 2),
+                  padding: EdgeInsets.only(top: ResponsiveSize.height(context, 2)),
                   child: Text(
                     "XXXX 1234",
                     style: AppTextStyles.subtitle.copyWith(fontSize: 8),
@@ -124,8 +183,8 @@ class _WithdrawCashState extends State<WithdrawCash> {
                     onPressed: () => numberPressed("back"),
                     icon: Image.asset(
                       'assets/images/fill.png',
-                      height: 24,
-                      width: 18,
+                      height: ResponsiveSize.height(context, 24),
+                      width: ResponsiveSize.width(context, 18),
                     ),
                   );
                 }
@@ -135,7 +194,7 @@ class _WithdrawCashState extends State<WithdrawCash> {
                     elevation: 0, 
                     backgroundColor: Colors.transparent, 
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8), 
+                      borderRadius: BorderRadius.circular(ResponsiveSize.width(context, 8)), 
                     ),
                   ),
                   onPressed: () => numberPressed(value),
@@ -162,10 +221,10 @@ class _WithdrawCashState extends State<WithdrawCash> {
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(ResponsiveSize.width(context, 8)),
                 ),
                 backgroundColor: AppColors.primaryColor,
-                minimumSize: Size(ResponsiveSize.width(context, 320), 48),
+                minimumSize: Size(ResponsiveSize.width(context, 320), ResponsiveSize.height(context, 48)),
               ),
               child: const Text(
                 "Cash Out",
@@ -176,5 +235,6 @@ class _WithdrawCashState extends State<WithdrawCash> {
         ],
       ),
     );
+
   }
 }

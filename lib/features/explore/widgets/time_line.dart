@@ -42,7 +42,7 @@ class TimeLinewidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 80,
+      height: 60,
       child: TimelineTile(
         isFirst: isfirst,
         isLast: islast,
