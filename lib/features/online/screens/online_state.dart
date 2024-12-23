@@ -10,6 +10,7 @@ import 'package:driver_app/features/trips/screens/trip.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnlineState extends StatefulWidget {
   const OnlineState({super.key});
@@ -21,6 +22,25 @@ class OnlineState extends StatefulWidget {
 class _OnlineStateState extends State<OnlineState> {
   bool _isSwitched = false;
   int myIndex = 0;
+
+  @override
+  void initState(){
+    super.initState();
+   _loadOnlineStatus();}
+
+    Future<void> _loadOnlineStatus() async{
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        _isSwitched= prefs.getBool('isOnline') ?? false;
+      });
+    } 
+  
+  Future<void> _setOnlineStatus(bool status) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isOnline', status);
+  }
+    
+ 
 
   final List<Widget> screens = [
     const ExploreScreen(),
