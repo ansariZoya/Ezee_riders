@@ -5,6 +5,7 @@ import 'package:driver_app/features/explore/screens/enter_otp.dart';
 import 'package:driver_app/features/explore/screens/message_screen.dart';
 import 'package:driver_app/features/explore/screens/ride_cancel.dart';
 import 'package:driver_app/features/explore/widgets/time_line.dart';
+import 'package:driver_app/features/online/widgets/help_widget.dart';
 import 'package:driver_app/utils/app_colors.dart';
 import 'package:driver_app/utils/app_text_styles.dart';
 import 'package:driver_app/utils/responsive_size.dart';
@@ -394,11 +395,83 @@ class _ArrivedTripState extends State<ArrivedTrip> {
         });
   }
 
-
+ 
+  void _showHelpPage(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return const HelpScreen();
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+   appBar: AppBar(
+          automaticallyImplyLeading: false,
+          flexibleSpace: Container(
+            color: AppColors.backgroundColor,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: ResponsiveSize.width(context, 12),
+                vertical: ResponsiveSize.height(context, 12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 29),
+                child: SizedBox(
+                  width: ResponsiveSize.width(context, 360),
+                  height: ResponsiveSize.height(context, 51),
+                  child: Row(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            height: ResponsiveSize.height(context, 19),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: ResponsiveSize.width(context, 2.5),
+                                right: ResponsiveSize.width(context, 2.5),
+                              ),
+                              child: InkWell(
+                                  onTap: () => _showHelpPage(context),
+                                  child:
+                                      const Icon(Icons.help_outline_rounded)),
+                            ),
+                          ),
+                          SizedBox(
+                            height: ResponsiveSize.height(context, 19),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: ResponsiveSize.width(context, 2.5),
+                                right: ResponsiveSize.width(context, 2.5),
+                              ),
+                              child:
+                                  const Icon(Icons.notifications_none_outlined),
+                            ),
+                          ),
+                          SizedBox(
+                            height: ResponsiveSize.height(context, 19),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: ResponsiveSize.width(context, 2.5),
+                                right: ResponsiveSize.width(context, 2.5),
+                              ),
+                              child: const Icon(
+                                Icons.warning_amber,
+                                color: AppColors.redColor,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       body: Stack(
         children: [
           userLocation == null
