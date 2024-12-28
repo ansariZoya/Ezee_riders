@@ -222,25 +222,47 @@ class _OnlineStateState extends State<OnlineState> {
           ),
         ),
       ),
-      body: IndexedStack(
+      body:  IndexedStack(
         index: myIndex,
         children: screens,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _onTapItem,
-        currentIndex: myIndex,
-        selectedItemColor: AppColors.primaryColor,
-        unselectedItemColor: AppColors.greytextColor,
-        unselectedLabelStyle: AppTextStyles.subtitle.copyWith(fontSize: 8),
-        selectedLabelStyle: AppTextStyles.subtitle.copyWith(fontSize: 10.5, color: AppColors.primaryColor),
-        items: const [
-          BottomNavigationBarItem(backgroundColor: AppColors.backgroundColor, icon: Icon(Icons.explore), label: 'Explore'),
-          BottomNavigationBarItem(backgroundColor: AppColors.backgroundColor, icon: Icon(Icons.two_wheeler_outlined), label: 'Trips'),
-          BottomNavigationBarItem(backgroundColor: AppColors.backgroundColor, icon: Icon(Icons.currency_rupee_rounded), label: 'Earning'),
-          BottomNavigationBarItem(backgroundColor: AppColors.backgroundColor, icon: Icon(Icons.account_balance_wallet), label: 'Payout'),
-          BottomNavigationBarItem(backgroundColor: AppColors.backgroundColor, icon: Icon(Icons.menu), label: 'More'),
-        ],
+      bottomNavigationBar: Container(
+        color: AppColors.backgroundColor,
+        width: ResponsiveSize.width(context, 360),
+        height: ResponsiveSize.height(context, 97),
+        child: BottomNavigationBar(
+            onTap: _onTapItem,
+            currentIndex: myIndex,
+            selectedItemColor: AppColors.primaryColor,
+            unselectedItemColor: AppColors.greytextColor,
+            unselectedLabelStyle: AppTextStyles.subtitle.copyWith(fontSize: 8),
+            selectedLabelStyle: AppTextStyles.subtitle
+                .copyWith(fontSize: 10.5, color: AppColors.primaryColor),
+            items: const [
+              BottomNavigationBarItem(
+                  backgroundColor: AppColors.backgroundColor,
+                  icon: Icon(Icons.explore),
+                  label: 'Explore'),
+              BottomNavigationBarItem(
+                  backgroundColor: AppColors.backgroundColor,
+                  icon: Icon(Icons.two_wheeler_outlined),
+                  label: 'Trips'),
+              BottomNavigationBarItem(
+                  backgroundColor: AppColors.backgroundColor,
+                  icon: Icon(Icons.currency_rupee_rounded),
+                  label: 'Earning'),
+              BottomNavigationBarItem(
+                  backgroundColor: AppColors.backgroundColor,
+                  icon: Icon(Icons.account_balance_wallet),
+                  label: 'Payout'),
+              BottomNavigationBarItem(
+                backgroundColor: AppColors.backgroundColor,
+                icon: Icon(Icons.menu),
+                label: 'More',
+              )
+            ]),
       ),
+    
     );
   }
 }
