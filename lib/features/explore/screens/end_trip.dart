@@ -122,9 +122,9 @@ class _EndTrip extends State<EndTrip>{
   void _updateMarkers() {
     setState(() {
       markers = {
-        Marker(markerId: MarkerId("source"), position: sourceLocation),
-        Marker(markerId: MarkerId("user"), position: userLocation!),
-        Marker(markerId: MarkerId("destination"), position: destinationLocation),
+        Marker(markerId: const MarkerId("source"), position: sourceLocation),
+        Marker(markerId: const MarkerId("user"), position: userLocation!),
+        Marker(markerId: const MarkerId("destination"), position: destinationLocation),
       };
     });
   }
@@ -142,7 +142,7 @@ class _EndTrip extends State<EndTrip>{
   }
 
   void generatePolylinefromPoints(List<LatLng> polylineCoordinates) {
-    PolylineId id = PolylineId('poly');
+    PolylineId id = const PolylineId('poly');
     Polyline polyline = Polyline(
       polylineId: id,
       color: Colors.blue,
@@ -166,9 +166,9 @@ class _EndTrip extends State<EndTrip>{
       ),
     );
     if (result.points.isNotEmpty) {
-      result.points.forEach((point) {
+      for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
+      }
     } else {
       print("Polyline Error: ${result.errorMessage}");
     }
@@ -268,7 +268,7 @@ class _EndTrip extends State<EndTrip>{
           markers:
           {
             Marker(
-                markerId: MarkerId("_destination"),
+                markerId: const MarkerId("_destination"),
                 icon: BitmapDescriptor.defaultMarker,
                 position: destinationLocation
             )
@@ -342,6 +342,7 @@ class _EndTrip extends State<EndTrip>{
                     builder: (context) => const PaymentTrip(),
                   ),
                 );
+                return null;
               },
               outerColor: AppColors.greenColor,
               sliderButtonIcon: Padding(

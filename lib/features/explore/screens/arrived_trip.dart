@@ -577,6 +577,7 @@ class _ArrivedTripState extends State<ArrivedTrip> {
                 context,
                 MaterialPageRoute(builder: (context) => const EnterOtP()),
               );
+              return null;
             },
             outerColor: AppColors.greenColor,
             sliderButtonIcon: Padding(

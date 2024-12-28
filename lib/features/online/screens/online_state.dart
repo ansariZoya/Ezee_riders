@@ -24,23 +24,22 @@ class _OnlineStateState extends State<OnlineState> {
   int myIndex = 0;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-   _loadOnlineStatus();}
+    _loadOnlineStatus();
+  }
 
-    Future<void> _loadOnlineStatus() async{
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      setState(() {
-        _isSwitched= prefs.getBool('isOnline') ?? false;
-      });
-    } 
-  
-  Future<void> _setOnlineStatus(bool status) async{
+  Future<void> _loadOnlineStatus() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isSwitched = prefs.getBool('isOnline') ?? false;
+    });
+  }
+
+  Future<void> _setOnlineStatus(bool status) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isOnline', status);
   }
-    
- 
 
   final List<Widget> screens = [
     const ExploreScreen(),
@@ -49,6 +48,7 @@ class _OnlineStateState extends State<OnlineState> {
     const PayOutScreen(),
     const MoreScreen(),
   ];
+
   void _onTapItem(int index) {
     setState(() {
       myIndex = index;
@@ -57,104 +57,97 @@ class _OnlineStateState extends State<OnlineState> {
 
   void _showHelpPage(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-       
-        builder: (context) {
-          return const HelpScreen();
-        });
+      context: context,
+      builder: (context) {
+        return const HelpScreen();
+      },
+    );
   }
 
   void _showDialogebox(bool turningOn) {
     Future.microtask(() {
       showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return Builder(builder: (context) {
-              return AlertDialog(
-                backgroundColor: AppColors.backgroundColor,
-                shape:  RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4)
-                  
-                ),
-                content:SizedBox(
-                  height:ResponsiveSize.height(context, 197)
-                  ,width: ResponsiveSize.width(context, 340),
-                 
-                  child: Column(
-                    children: [
-                      Column(
-                                        children: [
-                                          Image.asset(turningOn
-                      ? 'assets/images/green.png'
-                      : 'assets/images/red.png'),
-                                          SizedBox(
-                                            height: ResponsiveSize.height(context, 5)
-                                          ),
-                                          Text(
-                                            turningOn ? 'Go Online again?' : 'Go Offline?',
-                                            style: turningOn? AppTextStyles.headline2:AppTextStyles.headline3
-                                          ),
-                                        ],
-                                      ),SizedBox(height: ResponsiveSize.height(context, 5)),
-                  Text(
-                  turningOn
-                      ? ' After going online you will recieving           new ride requests'
-                      : 'After going offline you will not recieving  new ride requests',
-                  style: AppTextStyles.smalltitle,
-                  textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(height: ResponsiveSize.height(context, 30)),
-                    Container(child:  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SizedBox(
-                        height: ResponsiveSize.height(context, 42),width: ResponsiveSize.width(context, 100),
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
+        context: context,
+        builder: (BuildContext context) {
+          return Builder(builder: (context) {
+            return AlertDialog(
+              backgroundColor: AppColors.backgroundColor,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+              content: SizedBox(
+                height: ResponsiveSize.height(context, 197),
+                width: ResponsiveSize.width(context, 340),
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        Image.asset(turningOn ? 'assets/images/green.png' : 'assets/images/red.png'),
+                        SizedBox(height: ResponsiveSize.height(context, 5)),
+                        Text(
+                          turningOn ? 'Go Online again?' : 'Go Offline?',
+                          style: turningOn ? AppTextStyles.headline2 : AppTextStyles.headline3,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: ResponsiveSize.height(context, 5)),
+                    Text(
+                      turningOn
+                          ? 'After going online you will receive new ride requests'
+                          : 'After going offline you will not receive new ride requests',
+                      style: AppTextStyles.smalltitle,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: ResponsiveSize.height(context, 30)),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                            height: ResponsiveSize.height(context, 42),
+                            width: ResponsiveSize.width(context, 100),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.backgroundColor,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                                
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child:   Text(
-                              'No',
-                              style: AppTextStyles.baseStyle2.copyWith(
-                                color: AppColors.newgreyColor
-                              ) ,
-                            )),
-                      ),
-                      SizedBox(height: ResponsiveSize.height(context, 42),width: ResponsiveSize.width(context, 100),
-                        child: ElevatedButton(
-                            style:
-                             ElevatedButton.styleFrom(
-                              backgroundColor: turningOn
-                                  ? AppColors.greenColor
-                                  : AppColors.redColor,
-                              shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                'No',
+                                style: AppTextStyles.baseStyle2.copyWith(color: AppColors.newgreyColor),
+                              ),
                             ),
-                            onPressed: () {
-                              setState(() {
-                                _isSwitched = turningOn;
-                              });
-                              Navigator.of(context).pop();
-                            },
-                            child:  const Text(
-                              'Yes',
-                              style: AppTextStyles.baseStyle2,
-                            )),
-                      )
-                    ],
-                  ))
-                    ],
-                  ),
+                          ),
+                          SizedBox(
+                            height: ResponsiveSize.height(context, 42),
+                            width: ResponsiveSize.width(context, 100),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: turningOn ? AppColors.greenColor : AppColors.redColor,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isSwitched = turningOn;
+                                });
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                'Yes',
+                                style: AppTextStyles.baseStyle2,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                
-                
-                
-              );
-            });
+              ),
+            );
           });
+        },
+      );
     });
   }
 
@@ -163,21 +156,18 @@ class _OnlineStateState extends State<OnlineState> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        
         flexibleSpace: Container(
-          color:AppColors.backgroundColor ,
+          color: AppColors.backgroundColor,
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: ResponsiveSize.width(context, 12),
               vertical: ResponsiveSize.height(context, 12),
             ),
-                
             child: Padding(
               padding: const EdgeInsets.only(top: 29),
               child: SizedBox(
-               width: ResponsiveSize.width(context, 360),
-                height:  ResponsiveSize.height(context, 51),
-                
+                width: ResponsiveSize.width(context, 360),
+                height: ResponsiveSize.height(context, 51),
                 child: Row(
                   children: [
                     Row(
@@ -186,26 +176,21 @@ class _OnlineStateState extends State<OnlineState> {
                         SizedBox(
                           height: ResponsiveSize.height(context, 19),
                           child: Padding(
-                            padding: EdgeInsets.only(left: ResponsiveSize.width(context,2.5),
-                            right: ResponsiveSize.width(context,2.5),),
-                            child: InkWell(
-                                onTap: () => _showHelpPage(context),
-                                child: const Icon(Icons.help_outline_rounded)),
+                            padding: EdgeInsets.only(left: ResponsiveSize.width(context, 2.5), right: ResponsiveSize.width(context, 2.5)),
+                            child: InkWell(onTap: () => _showHelpPage(context), child: const Icon(Icons.help_outline_rounded)),
                           ),
                         ),
-                      SizedBox(
+                        SizedBox(
                           height: ResponsiveSize.height(context, 19),
                           child: Padding(
-                            padding: EdgeInsets.only(left: ResponsiveSize.width(context,2.5),
-                            right: ResponsiveSize.width(context,2.5),),
+                            padding: EdgeInsets.only(left: ResponsiveSize.width(context, 2.5), right: ResponsiveSize.width(context, 2.5)),
                             child: const Icon(Icons.notifications_none_outlined),
                           ),
                         ),
-                       SizedBox(
-                           height: ResponsiveSize.height(context, 19),
+                        SizedBox(
+                          height: ResponsiveSize.height(context, 19),
                           child: Padding(
-                            padding:EdgeInsets.only(left: ResponsiveSize.width(context,2.5),
-                            right: ResponsiveSize.width(context,2.5),),
+                            padding: EdgeInsets.only(left: ResponsiveSize.width(context, 2.5), right: ResponsiveSize.width(context, 2.5)),
                             child: const Icon(
                               Icons.warning_amber,
                               color: AppColors.redColor,
@@ -218,13 +203,14 @@ class _OnlineStateState extends State<OnlineState> {
                       child: CupertinoListTile(
                         trailing: SizedBox(
                           width: ResponsiveSize.width(context, 48),
-                          height: ResponsiveSize.height(context,25),
+                          height: ResponsiveSize.height(context, 25),
                           child: CupertinoSwitch(
-                              activeColor: AppColors.greenColor,
-                              value: _isSwitched,
-                              onChanged: (bool value) {
-                                _showDialogebox(value);
-                              }),
+                            activeColor: AppColors.greenColor,
+                            value: _isSwitched,
+                            onChanged: (bool value) {
+                              _showDialogebox(value);
+                            },
+                          ),
                         ),
                         title: const Text(''),
                       ),
@@ -240,40 +226,20 @@ class _OnlineStateState extends State<OnlineState> {
         index: myIndex,
         children: screens,
       ),
-      bottomNavigationBar: Container(
-        color: AppColors.backgroundColor,
-        width:ResponsiveSize.width(context, 360),
-        height: ResponsiveSize.height(context, 97),
-        child: BottomNavigationBar(
-            onTap: _onTapItem,
-            currentIndex: myIndex,
-            selectedItemColor:AppColors.primaryColor,
-            unselectedItemColor: AppColors.greytextColor,
-            unselectedLabelStyle: AppTextStyles.subtitle.copyWith(
-              fontSize: 8
-            ),
-            selectedLabelStyle: AppTextStyles.subtitle.copyWith(
-              fontSize: 10.5,
-              color: AppColors.primaryColor
-            ),
-            items: const [
-              BottomNavigationBarItem(
-                backgroundColor:AppColors.backgroundColor,
-                  icon: Icon(Icons.explore), label: 'Explore'),
-              BottomNavigationBarItem(
-                 backgroundColor: AppColors.backgroundColor,
-                  icon: Icon(Icons.two_wheeler_outlined), label: 'Trips'),
-              BottomNavigationBarItem(
-                 backgroundColor: AppColors.backgroundColor,
-                  icon: Icon(Icons.currency_rupee_rounded), label: 'Earning'),
-              BottomNavigationBarItem(
-                 backgroundColor: AppColors.backgroundColor,
-                  icon: Icon(Icons.account_balance_wallet), label: 'Payout'),
-              BottomNavigationBarItem(
-                 backgroundColor: AppColors.backgroundColor,
-                icon: Icon(Icons.menu), label: 'More',
-                )
-            ]),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: _onTapItem,
+        currentIndex: myIndex,
+        selectedItemColor: AppColors.primaryColor,
+        unselectedItemColor: AppColors.greytextColor,
+        unselectedLabelStyle: AppTextStyles.subtitle.copyWith(fontSize: 8),
+        selectedLabelStyle: AppTextStyles.subtitle.copyWith(fontSize: 10.5, color: AppColors.primaryColor),
+        items: const [
+          BottomNavigationBarItem(backgroundColor: AppColors.backgroundColor, icon: Icon(Icons.explore), label: 'Explore'),
+          BottomNavigationBarItem(backgroundColor: AppColors.backgroundColor, icon: Icon(Icons.two_wheeler_outlined), label: 'Trips'),
+          BottomNavigationBarItem(backgroundColor: AppColors.backgroundColor, icon: Icon(Icons.currency_rupee_rounded), label: 'Earning'),
+          BottomNavigationBarItem(backgroundColor: AppColors.backgroundColor, icon: Icon(Icons.account_balance_wallet), label: 'Payout'),
+          BottomNavigationBarItem(backgroundColor: AppColors.backgroundColor, icon: Icon(Icons.menu), label: 'More'),
+        ],
       ),
     );
   }
